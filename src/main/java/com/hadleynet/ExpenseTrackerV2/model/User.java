@@ -1,17 +1,20 @@
 package com.hadleynet.ExpenseTrackerV2.model;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
+import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
-@Document
+@Entity(name = "Users")
+@Table(name = "users")
 public class User {
     //will need pw & email fields in future
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @Column(name="firstName")
     private String firstName;
+    @Column(name="lastName")
     private String lastName;
 
     public User(String firstName, String lastName) {
@@ -30,5 +33,25 @@ public class User {
     @Override
     public int hashCode() {
         return Objects.hash(id, firstName, lastName);
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 }

@@ -13,14 +13,14 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest(classes = ExpenseTrackerV2Application.class)
-public class ExpenseRepositoryTest {
-    User user;
-    Expense expense;
+public class ExpenseRepositoryIntegrationTest {
+    Expense expense1;
     @Autowired
     private ExpenseRepository expenseRepository;
     @Autowired
@@ -28,23 +28,29 @@ public class ExpenseRepositoryTest {
 
     @BeforeEach
     void setUp(){
-        mongoTemplate.dropCollection(Expense.class);
+        User user1 = new User("T", "Scott");
 
-        user = new User("T", "Scott");
-        expense = new Expense("Paycheck", "Biweekly pay", new BigDecimal(100.00), user);
-        expenseRepository.save(expense);
+        expense1 = new Expense("Paycheck", "Biweekly pay", new BigDecimal("100.00"), user1);
+        Expense expense2 = new Expense("Gas", "Filled the truck", BigDecimal.valueOf(-100.00), user1);
+
+        List<User> users = Arrays.asList(user1);
+        List<Expense> expenses = Arrays.asList(expense1, expense2);
+
+        mongoTemplate.insertAll(users);
+        mongoTemplate.insertAll(expenses);
     }
 
     @AfterEach
     void tearDown() {
+        mongoTemplate.dropCollection(User.class);
         mongoTemplate.dropCollection(Expense.class);
     }
 
     @Test
     void testFindByName() {
         List<Expense> expected = new ArrayList<>();
-        expected.add(expense);
-        List<Expense> result = expenseRepository.findByName(expense.getName());
+        expected.add(expense1);
+        List<Expense> result = expenseRepository.findByName(expense1.getName());
         assertEquals(result, expected);
     }
 
