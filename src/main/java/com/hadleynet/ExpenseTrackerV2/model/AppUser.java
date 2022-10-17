@@ -7,10 +7,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Objects;
 
 @Entity
 public class AppUser implements UserDetails {
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,8 +21,11 @@ public class AppUser implements UserDetails {
     private String password;
     @Enumerated(EnumType.STRING)
     private AppUserRole appUserRole;
-    private Boolean locked = false;
-    private Boolean enabled = false;
+    private boolean locked = false;
+    private boolean enabled = false;
+
+    public AppUser () {
+    }
 
     public AppUser(String firstName,
                    String lastName,
@@ -53,12 +56,24 @@ public class AppUser implements UserDetails {
         return email;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
     public String getFirstName() {
         return firstName;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public AppUserRole getAppUserRole() {
+        return appUserRole;
+    }
+
+    public Boolean getLocked() {
+        return locked;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
     }
 
     public String getLastName() {
@@ -79,6 +94,14 @@ public class AppUser implements UserDetails {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setLocked(Boolean locked) {
+        this.locked = locked;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
     }
 
     public void setPassword(String password) {
@@ -107,5 +130,32 @@ public class AppUser implements UserDetails {
     @Override
     public boolean isEnabled() {
         return enabled;
+    }
+
+    @Override
+    public String toString() {
+        return "AppUser{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", appUserRole=" + appUserRole +
+                ", locked=" + locked +
+                ", enabled=" + enabled +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AppUser appUser = (AppUser) o;
+        return locked == appUser.locked && enabled == appUser.enabled && Objects.equals(id, appUser.id) && Objects.equals(firstName, appUser.firstName) && Objects.equals(lastName, appUser.lastName) && Objects.equals(email, appUser.email) && Objects.equals(password, appUser.password) && appUserRole == appUser.appUserRole;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, firstName, lastName, email, password, appUserRole, locked, enabled);
     }
 }

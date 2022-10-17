@@ -2,6 +2,7 @@ package com.hadleynet.ExpenseTrackerV2.service;
 
 import com.hadleynet.ExpenseTrackerV2.model.AppUser;
 import com.hadleynet.ExpenseTrackerV2.repository.AppUserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -14,11 +15,11 @@ public class AppUserService implements UserDetailsService {
     private final static String USER_NOT_FOUND_MSG =
             "user with email %s not found";
 
-    private final AppUserRepository appUserRepository;
+    @Autowired
+    AppUserRepository appUserRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public AppUserService(AppUserRepository appUserRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
-        this.appUserRepository = appUserRepository;
+    public AppUserService(BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
@@ -33,7 +34,7 @@ public class AppUserService implements UserDetailsService {
 
     public void signUpUser(AppUser appUser) {
         boolean userExists = appUserRepository
-                .findByEmail(appUser.getEmail())
+                .findByEmail(appUser.getUsername())
                 .isPresent();
 
         if (userExists) {
