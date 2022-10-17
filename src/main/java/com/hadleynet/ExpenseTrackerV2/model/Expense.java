@@ -18,14 +18,14 @@ public class Expense {
     @Column(name="amount")
     private BigDecimal amount;
     @ManyToOne
-    @JoinColumn(name = "users_id", nullable = false)
-    private User user;
+    @JoinColumn(name = "app_user_id", nullable = false)
+    private AppUser appUser;
 
-    public Expense(String name, String description, BigDecimal amount, User user) {
+    public Expense(String name, String description, BigDecimal amount, AppUser appUser) {
         this.name = name;
         this.description = description;
         this.amount = amount;
-        this.user = user;
+        this.appUser = appUser;
     }
 
     public String getName() {
@@ -37,12 +37,12 @@ public class Expense {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Expense expense = (Expense) o;
-        return id == expense.id && Objects.equals(name, expense.name) && Objects.equals(description, expense.description) && Objects.equals(amount, expense.amount) && Objects.equals(user, expense.user);
+        return id == expense.id && Objects.equals(name, expense.name) && Objects.equals(description, expense.description) && Objects.equals(amount, expense.amount) && Objects.equals(appUser, expense.appUser);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, description, amount, user);
+        return Objects.hash(id, name, description, amount, appUser);
     }
 
     @Override
@@ -52,7 +52,7 @@ public class Expense {
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", amount=" + amount +
-                ", user=" + user +
+                ", appUser=" + appUser +
                 '}';
     }
 
@@ -72,12 +72,12 @@ public class Expense {
         this.amount = amount;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setAppUser(AppUser appUser) {
+        this.appUser = appUser;
     }
 
-    public User getUser() {
-        return this.user;
+    public AppUser getAppUser() {
+        return this.appUser;
     }
 
     public String getDescription() {

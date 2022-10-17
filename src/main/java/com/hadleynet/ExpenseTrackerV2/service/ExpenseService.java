@@ -42,7 +42,7 @@ public class ExpenseService {
         savedExpense.setName(expense.getName());
         savedExpense.setAmount(expense.getAmount());
         savedExpense.setDescription(expense.getDescription());
-        savedExpense.setUser(expense.getUser());
+        savedExpense.setAppUser(expense.getAppUser());
 
         expenseRepository.save(savedExpense);
         return savedExpense;
