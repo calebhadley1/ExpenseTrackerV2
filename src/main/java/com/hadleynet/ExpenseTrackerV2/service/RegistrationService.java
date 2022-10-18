@@ -16,6 +16,8 @@ public class RegistrationService {
 
     public void register(RegistrationRequest request) {
 
+        //ToDo validate email
+
         appUserService.signUpUser(
                 new AppUser(
                         request.getFirstName(),
@@ -25,6 +27,10 @@ public class RegistrationService {
                         AppUserRole.USER
                 )
         );
+
+        //ToDo send confirm email
+
+        appUserService.enableAppUser(request.getEmail());
 
     }
 }

@@ -1,8 +1,11 @@
 package com.hadleynet.ExpenseTrackerV2.service;
 
 import com.hadleynet.ExpenseTrackerV2.exception.ExpenseNotFoundException;
+import com.hadleynet.ExpenseTrackerV2.model.AppUser;
 import com.hadleynet.ExpenseTrackerV2.model.Expense;
+import com.hadleynet.ExpenseTrackerV2.repository.AppUserRepository;
 import com.hadleynet.ExpenseTrackerV2.repository.ExpenseRepository;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,14 +13,22 @@ import java.util.Optional;
 
 @Service
 public class ExpenseService {
-
+    private final static String USER_NOT_FOUND_MSG =
+            "user with email %s not found";
     private final ExpenseRepository expenseRepository;
+    private final AppUserRepository appUserRepository;
 
-    public ExpenseService(ExpenseRepository expenseRepository){
+    public ExpenseService(ExpenseRepository expenseRepository, AppUserRepository appUserRepository){
         this.expenseRepository = expenseRepository;
+        this.appUserRepository = appUserRepository;
     }
 
-    public void addExpense(Expense expense) {
+    public void addExpense(Expense expense, String email) {
+        AppUser appUser = appUserRepository.findByEmail(email)
+                .orElseThrow(() ->
+                        new UsernameNotFoundException(
+                                String.format(USER_NOT_FOUND_MSG, email)));
+        expense.setAppUser(appUser);
         expenseRepository.save(expense);
     }
 
@@ -34,7 +45,12 @@ public class ExpenseService {
         expenseRepository.deleteById(id);
     }
 
-    public Expense updateExpense(Expense expense) {
+    public Expense updateExpense(Expense expense, String email) {
+        AppUser appUser = appUserRepository.findByEmail(email)
+                .orElseThrow(() ->
+                        new UsernameNotFoundException(
+                                String.format(USER_NOT_FOUND_MSG, email)));
+
         Expense savedExpense = expenseRepository.findById(expense.getId())
                 .orElseThrow(() -> new RuntimeException(
                         String.format("Cannot Find Expense by ID %s", expense.getId())));
@@ -42,7 +58,7 @@ public class ExpenseService {
         savedExpense.setName(expense.getName());
         savedExpense.setAmount(expense.getAmount());
         savedExpense.setDescription(expense.getDescription());
-        savedExpense.setAppUser(expense.getAppUser());
+        savedExpense.setAppUser(appUser);
 
         expenseRepository.save(savedExpense);
         return savedExpense;

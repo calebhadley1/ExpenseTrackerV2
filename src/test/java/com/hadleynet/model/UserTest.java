@@ -1,7 +1,8 @@
 package com.hadleynet.model;
 
 import com.hadleynet.ExpenseTrackerV2.ExpenseTrackerV2Application;
-import com.hadleynet.ExpenseTrackerV2.model.User;
+import com.hadleynet.ExpenseTrackerV2.model.AppUser;
+import com.hadleynet.ExpenseTrackerV2.model.AppUserRole;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -15,8 +16,8 @@ public class UserTest {
 
     @Test
     void smokeTest(){
-        User user = new User("T", "Scott");
-        assertNotNull(user);
+        AppUser appUser = new AppUser("T", "Scott", "tscott@gmail.com", "pass", AppUserRole.USER);
+        assertNotNull(appUser);
     }
 }
 

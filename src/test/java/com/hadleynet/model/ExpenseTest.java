@@ -1,8 +1,9 @@
 package com.hadleynet.model;
 
 import com.hadleynet.ExpenseTrackerV2.ExpenseTrackerV2Application;
+import com.hadleynet.ExpenseTrackerV2.model.AppUser;
+import com.hadleynet.ExpenseTrackerV2.model.AppUserRole;
 import com.hadleynet.ExpenseTrackerV2.model.Expense;
-import com.hadleynet.ExpenseTrackerV2.model.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -18,8 +19,8 @@ public class ExpenseTest {
 
     @Test
     void smokeTest(){
-        User user = new User("T", "Scott");
-        Expense expense = new Expense("Paycheck", "Biweekly pay", new BigDecimal(100.00), user);
+        AppUser appUser = new AppUser("T", "Scott", "tscott@gmail.com", "password", AppUserRole.USER);
+        Expense expense = new Expense("Paycheck", "Biweekly pay", new BigDecimal(100.00), appUser);
         assertNotNull(expense);
     }
 }
