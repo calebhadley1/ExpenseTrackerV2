@@ -17,11 +17,7 @@ public class TokenService {
     @Autowired
     JwtEncoder encoder;
 
-    @Autowired
-    JwtDecoder decoder;
-
     public String token(Authentication authentication) {
-        System.out.println(authentication);
         Instant now = Instant.now();
         long expiry = 36000L;
         String scope = authentication.getAuthorities().stream()

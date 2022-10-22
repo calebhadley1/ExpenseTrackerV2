@@ -1,12 +1,18 @@
 package com.hadleynet.ExpenseTrackerV2.controller;
 
 import com.hadleynet.ExpenseTrackerV2.config.RestConfig;
-import com.hadleynet.ExpenseTrackerV2.controller.TokenController;
+import com.hadleynet.ExpenseTrackerV2.service.TokenService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -16,17 +22,25 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest({ TokenController.class })
-@Import(RestConfig.class)
-public class TokenControllerTest {
+//@WebMvcTest({ TokenController.class })
+//@Import(RestConfig.class)
+@SpringBootTest
+@AutoConfigureMockMvc
+public class TokenControllerWebLayerTests {
 
     @Autowired
     MockMvc mvc;
 
+//    @MockBean
+//    private AuthenticationProvider authenticationProvider;
+//
+//    @MockBean
+//    TokenService tokenService;
+
     @Test
     void rootWhenAuthenticatedThenSaysHelloUser() throws Exception {
-        MvcResult result = this.mvc.perform(post("/token")
-                        .with(httpBasic("user", "password")))
+        MvcResult result = this.mvc.perform(post("/api/token")
+                        .with(httpBasic("user7", "dwa")))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -34,7 +48,7 @@ public class TokenControllerTest {
 
         this.mvc.perform(get("/")
                         .header("Authorization", "Bearer " + token))
-                .andExpect(content().string("Hello, user!"));
+                .andExpect(content().string("Hello, user7!"));
     }
 
     @Test
@@ -45,7 +59,7 @@ public class TokenControllerTest {
 
     @Test
     void tokenWhenBadCredentialsThen401() throws Exception {
-        this.mvc.perform(post("/token"))
+        this.mvc.perform(post("/api/token"))
                 .andExpect(status().isUnauthorized());
     }
 
