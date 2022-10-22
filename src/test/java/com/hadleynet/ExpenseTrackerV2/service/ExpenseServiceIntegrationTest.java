@@ -1,4 +1,4 @@
-package com.hadleynet.service;
+package com.hadleynet.ExpenseTrackerV2.service;
 
 import com.hadleynet.ExpenseTrackerV2.ExpenseTrackerV2Application;
 import com.hadleynet.ExpenseTrackerV2.repository.ExpenseRepository;

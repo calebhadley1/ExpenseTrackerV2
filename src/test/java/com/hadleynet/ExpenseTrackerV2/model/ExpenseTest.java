@@ -1,4 +1,4 @@
-package com.hadleynet.model;
+package com.hadleynet.ExpenseTrackerV2.model;
 
 import com.hadleynet.ExpenseTrackerV2.ExpenseTrackerV2Application;
 import com.hadleynet.ExpenseTrackerV2.model.AppUser;
