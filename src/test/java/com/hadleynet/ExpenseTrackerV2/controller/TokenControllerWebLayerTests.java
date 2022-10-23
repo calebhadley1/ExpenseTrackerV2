@@ -1,20 +1,20 @@
 package com.hadleynet.ExpenseTrackerV2.controller;
 
-import com.hadleynet.ExpenseTrackerV2.config.RestConfig;
-import com.hadleynet.ExpenseTrackerV2.service.TokenService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hadleynet.ExpenseTrackerV2.model.AppUser;
+import com.hadleynet.ExpenseTrackerV2.model.RegistrationRequest;
+import com.hadleynet.ExpenseTrackerV2.repository.AppUserRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+
+import java.util.Optional;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -22,8 +22,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-//@WebMvcTest({ TokenController.class })
-//@Import(RestConfig.class)
 @SpringBootTest
 @AutoConfigureMockMvc
 public class TokenControllerWebLayerTests {
@@ -31,16 +29,37 @@ public class TokenControllerWebLayerTests {
     @Autowired
     MockMvc mvc;
 
-//    @MockBean
-//    private AuthenticationProvider authenticationProvider;
-//
-//    @MockBean
-//    TokenService tokenService;
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @Autowired
+    private AppUserRepository appUserRepository;
+
+    @BeforeEach
+    public void setup() throws Exception {
+        //Setup user account
+        RegistrationRequest registrationRequest = new RegistrationRequest(
+                "fname", "lname", "test@gmail.com", "password"
+        );
+
+        MvcResult result = this.mvc.perform(post("/api/register")
+                        .content(objectMapper.writeValueAsString(registrationRequest))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated())
+                .andReturn();
+    }
+
+    @AfterEach
+    public void teardown() throws Exception {
+        //Delete user
+        Optional<AppUser> res = appUserRepository.findByEmail("test@gmail.com");
+        appUserRepository.delete(res.get());
+    }
 
     @Test
     void rootWhenAuthenticatedThenSaysHelloUser() throws Exception {
         MvcResult result = this.mvc.perform(post("/api/token")
-                        .with(httpBasic("user7", "dwa")))
+                        .with(httpBasic("test@gmail.com", "password")))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -48,7 +67,7 @@ public class TokenControllerWebLayerTests {
 
         this.mvc.perform(get("/")
                         .header("Authorization", "Bearer " + token))
-                .andExpect(content().string("Hello, user7!"));
+                .andExpect(content().string("Hello, test@gmail.com!"));
     }
 
     @Test
