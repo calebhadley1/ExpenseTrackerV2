@@ -9,7 +9,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
@@ -33,12 +32,14 @@ public class ExpenseServiceTests {
 
     @InjectMocks
     private ExpenseService expenseService;
-    private AppUser appUser;
+    private AppUser appUser1;
+    private AppUser appUser2;
     private Expense expense1;
     private Expense expense2;
+    private Expense expense3;
     @BeforeEach
     public void setup() {
-        appUser = new AppUser(
+        appUser1 = new AppUser(
                 "fname",
                 "lname",
                 "test@gmail.com",
@@ -46,18 +47,33 @@ public class ExpenseServiceTests {
                 AppUserRole.USER
         );
 
+        appUser2 = new AppUser(
+                "fname",
+                "lname",
+                "test@gmail.com",
+                "password",
+                AppUserRole.USER
+        );
+
         expense1 = new Expense(
                 "Expense name",
                 "Expense desc",
                 new BigDecimal("0.00"),
-                appUser
+                appUser1
         );
 
         expense2 = new Expense(
                 "Expense name2",
                 "Expense desc2",
                 new BigDecimal("1.00"),
-                appUser
+                appUser1
+        );
+
+        expense3 = new Expense(
+                "Something",
+                "A desc",
+                BigDecimal.valueOf(-100.00),
+                appUser2
         );
 
         expenseService = new ExpenseService(expenseRepository, appUserRepository);
@@ -69,12 +85,12 @@ public class ExpenseServiceTests {
 
     @Test
     public void testAddExpense() {
-        given(appUserRepository.findByEmail(appUser.getUsername())).willReturn(Optional.of(appUser));
-        expenseService.addExpense(expense1, appUser.getUsername());
-        verify(appUserRepository, times(1)).findByEmail(appUser.getUsername());
+        given(appUserRepository.findByEmail(appUser1.getUsername())).willReturn(Optional.of(appUser1));
+        expenseService.addExpense(expense1, appUser1.getUsername());
+        verify(appUserRepository, times(1)).findByEmail(appUser1.getUsername());
         verify(expenseRepository, times(1)).save(expense1);
         // Check expense has associated user
-        assertEquals(expense1.getAppUser(), appUser);
+        assertEquals(expense1.getAppUser(), appUser1);
     }
 
     @Test
@@ -82,9 +98,24 @@ public class ExpenseServiceTests {
         List<Expense> expected = new ArrayList<>();
         expected.add(expense1);
         expected.add(expense2);
+        expected.add(expense3);
         given(expenseRepository.findAll()).willReturn(expected);
-        List<Expense> result = expenseService.getAllExpenses();
+        List<Expense> result = expenseService.getAllExpenses("", false);
         verify(expenseRepository, times(1)).findAll();
+        assertEquals(result, expected);
+    }
+
+    @Test
+    public void testGetAllExpensesByUser() {
+        List<Expense> expected = new ArrayList<>();
+        expected.add(expense1);
+        expected.add(expense2);
+        given(appUserRepository.findByEmail(appUser1.getUsername())).willReturn(Optional.of(appUser1));
+        appUser1.setId(0L);
+        given(expenseRepository.findByAppUserId(appUser1.getId())).willReturn(expected);
+        List<Expense> result = expenseService.getAllExpenses(appUser1.getUsername(), true);
+        verify(appUserRepository, times(1)).findByEmail(appUser1.getUsername());
+        verify(expenseRepository, times(1)).findByAppUserId(appUser1.getId());
         assertEquals(result, expected);
     }
 
@@ -104,10 +135,10 @@ public class ExpenseServiceTests {
     }
     @Test
     public void testUpdateExpense() {
-        given(appUserRepository.findByEmail(appUser.getUsername())).willReturn(Optional.of(appUser));
+        given(appUserRepository.findByEmail(appUser1.getUsername())).willReturn(Optional.of(appUser1));
         given(expenseRepository.findById(0L)).willReturn(Optional.of(expense1));
-        Expense result = expenseService.updateExpense(expense1, appUser.getUsername());
-        verify(appUserRepository, times(1)).findByEmail(appUser.getUsername());
+        Expense result = expenseService.updateExpense(expense1, appUser1.getUsername());
+        verify(appUserRepository, times(1)).findByEmail(appUser1.getUsername());
         verify(expenseRepository, times(1)).findById(0L);
         verify(expenseRepository, times(1)).save(expense1);
         assertEquals(result, expense1);

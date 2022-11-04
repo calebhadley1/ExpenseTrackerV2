@@ -8,6 +8,7 @@ import com.hadleynet.ExpenseTrackerV2.repository.ExpenseRepository;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,7 +33,14 @@ public class ExpenseService {
         expenseRepository.save(expense);
     }
 
-    public List<Expense> getAllExpenses() {
+    public List<Expense> getAllExpenses(String email, boolean byUserFlag) {
+        if(byUserFlag){
+            AppUser appUser = appUserRepository.findByEmail(email).orElseThrow(
+
+            );
+            return expenseRepository.findByAppUserId(appUser.getId());
+        }
+        // Add check so only admins can do this
         return expenseRepository.findAll();
     }
 

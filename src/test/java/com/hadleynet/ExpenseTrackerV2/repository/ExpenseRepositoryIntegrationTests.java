@@ -19,10 +19,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
 public class ExpenseRepositoryIntegrationTests {
-    AppUser appUser;
+    AppUser appUser1;
+    AppUser appUser2;
     Expense expense1;
     Expense expense2;
+    Expense expense3;
     List<Expense> expenses;
+    @Autowired
+    private AppUserRepository appUserRepository;
     @Autowired
     private ExpenseRepository expenseRepository;
 
@@ -31,12 +35,12 @@ public class ExpenseRepositoryIntegrationTests {
 
     @BeforeEach
     void setUp(){
-        appUser = new AppUser("T", "Scott", "tscott@gmail.com", "password", AppUserRole.USER);
-        expense1 = new Expense("Paycheck", "Biweekly pay", new BigDecimal("100.00"), appUser);
-        expense2 = new Expense("Gas", "Filled the truck", BigDecimal.valueOf(-100.00), appUser);
-
-        expenses = Arrays.asList(expense1, expense2);
-
+        appUser1 = new AppUser("T", "Scott", "tscott@gmail.com", "password", AppUserRole.USER);
+        appUser2 = new AppUser("fname", "lname", "test@gmail.com", "password", AppUserRole.USER);
+        expense1 = new Expense("Paycheck", "Biweekly pay", new BigDecimal("100.00"), appUser1);
+        expense2 = new Expense("Gas", "Filled the truck", BigDecimal.valueOf(-100.00), appUser1);
+        expense3 = new Expense("Something", "A desc", BigDecimal.valueOf(-100.00), appUser2);
+        expenses = Arrays.asList(expense1, expense2, expense3);
     }
 
     /*
@@ -45,12 +49,28 @@ public class ExpenseRepositoryIntegrationTests {
 
     @Test
     public void testFindAllExpenses() {
-        entityManager.persist(appUser);
+        entityManager.persist(appUser1);
+        entityManager.persist(appUser2);
         entityManager.persist(expense1);
         entityManager.persist(expense2);
+        entityManager.persist(expense3);
 
         List<Expense> result = expenseRepository.findAll();
-        assertThat(result).hasSize(2).containsAll(expenses);
+        assertThat(result).hasSize(3).containsAll(expenses);
+    }
+
+    @Test
+    public void testFindAllExpensesByUser() {
+        entityManager.persist(appUser1);
+        entityManager.persist(appUser2);
+        entityManager.persist(expense1);
+        entityManager.persist(expense2);
+        entityManager.persist(expense3);
+
+        AppUser a = appUserRepository.findByEmail(appUser1.getUsername()).get();
+
+        List<Expense> result = expenseRepository.findByAppUserId(a.getId());
+        assertThat(result).hasSize(2).contains(expense1, expense2);
     }
 
     @Test
@@ -58,16 +78,16 @@ public class ExpenseRepositoryIntegrationTests {
         List<Expense> expected = new ArrayList<>();
         expected.add(expense1);
 
-        entityManager.persist(appUser);
+        entityManager.persist(appUser1);
         entityManager.persist(expense1);
-        List<Expense> result = expenseRepository.findByName(expense1.getName());
-        assertEquals(expected, result);
+        List<Expense> result = expenseRepository.findByName(expense1.getName()).get();
+        assertEquals(result, expected);
     }
 
     @Test
     void testFindById() {
         Expense expected = expense1;
-        entityManager.persist(appUser);
+        entityManager.persist(appUser1);
         entityManager.persist(expense1);
 
         Expense result = expenseRepository.findById(expense1.getId()).get();
@@ -76,7 +96,7 @@ public class ExpenseRepositoryIntegrationTests {
 
     @Test
     void testUpdateById() {
-        entityManager.persist(appUser);
+        entityManager.persist(appUser1);
         entityManager.persist(expense1);
         Expense expense = new Expense("New name", "New Desc", BigDecimal.valueOf(-100.00), expense1.getAppUser());
 
@@ -97,7 +117,7 @@ public class ExpenseRepositoryIntegrationTests {
 
     @Test
     void testDeleteById() {
-        entityManager.persist(appUser);
+        entityManager.persist(appUser1);
         entityManager.persist(expense1);
         entityManager.persist(expense2);
 
@@ -108,7 +128,7 @@ public class ExpenseRepositoryIntegrationTests {
 
     @Test
     void testDeleteAll() {
-        entityManager.persist(appUser);
+        entityManager.persist(appUser1);
         entityManager.persist(expense1);
         entityManager.persist(expense2);
 

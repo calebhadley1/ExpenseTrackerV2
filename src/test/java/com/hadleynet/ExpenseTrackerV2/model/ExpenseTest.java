@@ -1,9 +1,6 @@
 package com.hadleynet.ExpenseTrackerV2.model;
 
 import com.hadleynet.ExpenseTrackerV2.ExpenseTrackerV2Application;
-import com.hadleynet.ExpenseTrackerV2.model.AppUser;
-import com.hadleynet.ExpenseTrackerV2.model.AppUserRole;
-import com.hadleynet.ExpenseTrackerV2.model.Expense;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 

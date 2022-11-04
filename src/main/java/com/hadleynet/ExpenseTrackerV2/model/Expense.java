@@ -21,6 +21,9 @@ public class Expense {
     @JoinColumn(name = "app_user_id", nullable = false)
     private AppUser appUser;
 
+    private Expense() {
+    }
+
     public Expense(String name, String description, BigDecimal amount, AppUser appUser) {
         this.name = name;
         this.description = description;
