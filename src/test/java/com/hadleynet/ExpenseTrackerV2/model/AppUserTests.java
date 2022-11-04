@@ -1,22 +1,21 @@
 package com.hadleynet.ExpenseTrackerV2.model;
 
 import com.hadleynet.ExpenseTrackerV2.ExpenseTrackerV2Application;
-import com.hadleynet.ExpenseTrackerV2.model.RegistrationRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest(classes = ExpenseTrackerV2Application.class)
-public class RegistrationRequestTest {
+public class AppUserTests {
     @Test
     void contextLoads() {
     }
 
     @Test
     void smokeTest(){
-        RegistrationRequest registrationRequest = new RegistrationRequest("fName", "lName", "email@email.com", "password");
-        assertNotNull(registrationRequest);
+        AppUser appUser = new AppUser("T", "Scott", "tscott@gmail.com", "pass", AppUserRole.USER);
+        assertNotNull(appUser);
     }
 }
 
