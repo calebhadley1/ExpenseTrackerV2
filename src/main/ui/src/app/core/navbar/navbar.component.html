@@ -1,1 +1,26 @@
-<p>navbar works!</p>
+<!-- <div> -->
+    <!-- <div id="navigation-bar"> -->
+        <!-- <nav> -->
+            <!-- <ul> -->
+                <!-- <div class="nav-item" *ngFor="let item of items"> -->
+                    <!-- <li><a href="#" id="logo">LOGO</a></li> -->
+                    <!-- <li *ngFor="let item of items"><a class="">{{item.name}}</a></li> -->
+                <!-- </div> -->
+            <!-- </ul>
+        </nav>  
+    </div>
+</div> -->
+<p>
+    <mat-toolbar>
+        <button *ngIf="showBrand" mat-button aria-label="ExpenseTracker Logo">
+            <mat-icon svgIcon="piggybank">ExpenseTracker Logo</mat-icon>ExpenseTracker
+        </button>
+        <button *ngFor="let item of items" mat-button aria-label="item.ariaLabel">
+            {{item.name}}
+        </button>
+        <span class="spacer"></span>
+        <button mat-button aria-label="Sign up button">
+            Sign Up
+        </button>
+  </mat-toolbar>
+</p>

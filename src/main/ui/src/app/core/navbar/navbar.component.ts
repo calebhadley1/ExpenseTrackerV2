@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { MatIconRegistry } from '@angular/material/icon';
+import { DomSanitizer } from '@angular/platform-browser';
+import { NavItem } from './nav-item';
 
 @Component({
   selector: 'app-navbar',
@@ -6,8 +9,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
+  @Input() showBrand: boolean = false;
+  @Input() items: NavItem[] = [];
 
-  constructor() { }
+  constructor(
+    private matIconRegistry: MatIconRegistry,
+    private domSanitizer: DomSanitizer
+  ) { 
+    this.matIconRegistry.addSvgIcon(
+      "piggybank",
+      this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/undraw_credit_card_re_blml.svg")
+    );
+  }
 
   ngOnInit(): void {
   }

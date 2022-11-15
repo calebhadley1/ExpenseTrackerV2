@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { CoreModule } from './core/core.module';
-import { LandingModule } from './landing/landing.module';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MaterialDesignModule } from './material-design.module';
 
 @NgModule({
   declarations: [
@@ -12,9 +14,12 @@ import { LandingModule } from './landing/landing.module';
   ],
   imports: [
     AppRoutingModule,
+    BrowserAnimationsModule,
     BrowserModule,
-    CoreModule,
-    LandingModule
+    FormsModule,
+    HttpClientModule,
+    MaterialDesignModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
