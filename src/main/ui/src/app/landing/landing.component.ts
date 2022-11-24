@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MatIconRegistry } from '@angular/material/icon';
+import { DomSanitizer } from '@angular/platform-browser';
 import { NavItem } from '../core/navbar/nav-item';
 
 @Component({
@@ -8,25 +10,21 @@ import { NavItem } from '../core/navbar/nav-item';
 })
 export class LandingComponent implements OnInit {
   navShowBrand: boolean = true;
-  navItems: NavItem[] = [
+  leftNavItems: NavItem[] = [];
+
+  rightNavItems: NavItem[] = [
     {
-      name: '1',
-      routerLink: '',
+      name: 'Sign Up',
+      routerLink: '/register',
       href: '',
-      ariaLabel: ''
+      ariaLabel: 'Sign Up'
     },
     {
-      name: '2',
-      routerLink: '',
+      name: 'Sign In',
+      routerLink: '/login',
       href: '',
-      ariaLabel: ''
+      ariaLabel: 'Sign In'
     },
-    {
-      name: '3',
-      routerLink: '',
-      href: '',
-      ariaLabel: ''
-    }
   ];
   constructor() { }
 

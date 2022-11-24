@@ -10,7 +10,8 @@ import { NavItem } from './nav-item';
 })
 export class NavbarComponent implements OnInit {
   @Input() showBrand: boolean = false;
-  @Input() items: NavItem[] = [];
+  @Input() leftNavItems: NavItem[] = [];
+  @Input() rightNavItems: NavItem[] = [];
 
   constructor(
     private matIconRegistry: MatIconRegistry,

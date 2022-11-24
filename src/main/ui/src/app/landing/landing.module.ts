@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { LandingRoutingModule } from './landing-routing.module';
 import { LandingComponent } from './landing.component';
 import { CoreModule } from '../core/core.module';
+import { MaterialDesignModule } from '../material-design.module';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { CoreModule } from '../core/core.module';
   ],
   imports: [
     CoreModule,
-    LandingRoutingModule
+    LandingRoutingModule,
+    MaterialDesignModule,
   ]
 })
 export class LandingModule { }

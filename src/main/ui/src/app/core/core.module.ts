@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { NavbarComponent } from './navbar/navbar.component';
 import { MaterialDesignModule } from '../material-design.module';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 // Module containing core functionality of the application 
 @NgModule({
@@ -13,7 +14,8 @@ import { CommonModule } from '@angular/common';
   ],
   imports: [
     CommonModule,
-    MaterialDesignModule
+    MaterialDesignModule,
+    RouterModule
   ],
   bootstrap: [NavbarComponent],
 })
