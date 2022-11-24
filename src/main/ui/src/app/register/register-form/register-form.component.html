@@ -24,14 +24,15 @@
                 </mat-error>
             </mat-form-field>
         </p>
+        <div formGroupName="passwordFormGroup">
         <p>
             <mat-form-field appearance="fill">
                 <mat-label>Password</mat-label>
                 <input type="password" matInput formControlName="passwordFormControl" [errorStateMatcher]="passwordMatcher">
-                <mat-error *ngIf="registerFormGroup.get('passwordFormControl')!.hasError('pattern') && !registerFormGroup.get('passwordFormControl')!.hasError('required')">
-                Must be 8 or more characters and contain at least 1 letter and 1 number
+                <mat-error *ngIf="registerFormGroup['controls'].passwordFormGroup.get('passwordFormControl')!.errors && !registerFormGroup['controls'].passwordFormGroup.get('passwordFormControl')!.hasError('required')">
+                Must be 8-20 characters and contain at least 1 lowercase and capital letter and 1 number
                 </mat-error>
-                <mat-error *ngIf="registerFormGroup.get('passwordFormControl')!.hasError('required')">
+                <mat-error *ngIf="registerFormGroup['controls'].passwordFormGroup.get('passwordFormControl')!.hasError('required')">
                 Password is <strong>required</strong>
                 </mat-error>
             </mat-form-field>
@@ -39,7 +40,14 @@
         <p>
             <mat-form-field appearance="fill">
                 <mat-label>Confirm Password</mat-label>
-                <input matInput>
+                <input type="password" matInput formControlName="confirmPasswordFormControl" [errorStateMatcher]="confirmPasswordMatcher">
+                <mat-error *ngIf="registerFormGroup['controls'].passwordFormGroup.get('confirmPasswordFormControl')!.hasError('required')">
+                Confirm Password is <strong>required</strong>
+                </mat-error>
+                <mat-error *ngIf="registerFormGroup['controls'].passwordFormGroup.errors && !registerFormGroup['controls'].passwordFormGroup.get('confirmPasswordFormControl')!.hasError('required')">
+                    Passwords must match
+                </mat-error>
             </mat-form-field>
         </p>
+        </div>
 </form>
