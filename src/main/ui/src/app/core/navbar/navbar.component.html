@@ -1,8 +1,8 @@
 <p class="no-margin">
     <mat-toolbar>
-        <button class="logo icon-display" *ngIf="showBrand" mat-button aria-label="ExpenseTracker Logo">
+        <a class="button logo icon-display" *ngIf="showBrand" routerLink="/landing" mat-button aria-label="ExpenseTracker Logo">
             <mat-icon svgIcon="piggybank">ExpenseTracker Logo</mat-icon>ExpenseTracker
-        </button>
+        </a>
         <a class="button" mat-button *ngFor="let item of leftNavItems" [routerLink]="item.routerLink" aria-label="item.ariaLabel">
             {{item.name}}
         </a>

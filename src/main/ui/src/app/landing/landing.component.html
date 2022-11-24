@@ -1,44 +1,44 @@
-<app-navbar [showBrand]="navShowBrand" [leftNavItems]="leftNavItems" [rightNavItems]="rightNavItems" ></app-navbar>
-<div>
-    <main>
-        <div>
-            <mat-grid-list cols="3" rowHeight="100px">
-                <mat-grid-tile colspan="3" rowspan="1">
-                    <div style="text-align: center">
-                        <h1>Empowering you to focus on the things you love</h1>
-                        <a class="button large-button" mat-raised-button color="primary" routerLink="/register" aria-label="Sign up now button">
-                            Start for free
-                        </a>
-                    </div>
-                </mat-grid-tile>
-                <mat-grid-tile colspan="3" rowspan="5">
-                    <img src="assets/undraw_traveling_01tc.svg" alt="Relaxation SVG" />            
-                </mat-grid-tile>
-                <mat-grid-tile colspan="1" rowspan="2">
-                    <div class="center-svg">
-                        <mat-icon class="icon-display" aria-hidden="false" aria-label="Trending up icon" fontIcon="trending_up"></mat-icon>
-                        <h2>Track your progress</h2>
-                        <p>With ExpenseTracker, view a history of your expenses to watch your net worth grow</p>
-                    </div>
-                </mat-grid-tile>
-                <mat-grid-tile colspan="1" rowspan="2">
-                    <div>
-                        <mat-icon class="icon-display" aria-hidden="false" aria-label="Flag icon" fontIcon="flag"></mat-icon>
-                        <h2>Reach your financial goals</h2>
-                        <p>Record your goals and check them off as you reach them</p>
-                    </div>
-                </mat-grid-tile>
-                <mat-grid-tile colspan="1" rowspan="2">
-                    <div>
-                        <mat-icon class="icon-display" aria-hidden="false" aria-label="Mood icon" fontIcon="mood"></mat-icon>
-                        <h2>Ease of use</h2>
-                        <p>Simple and intuitive UI makes ExpenseTracker an easy habit to maintain</p>
-                    </div>
-                </mat-grid-tile>
-            </mat-grid-list>
-        </div>
-    </main>
-    <footer>
-
-    </footer>
-</div>
+<header>
+    <app-navbar [showBrand]="navShowBrand" [leftNavItems]="leftNavItems" [rightNavItems]="rightNavItems" ></app-navbar>
+</header>
+<main>
+    <div>
+        <mat-grid-list cols="3" rowHeight="100px">
+            <mat-grid-tile colspan="3" rowspan="1">
+                <div style="text-align: center">
+                    <h1>Empowering you to focus on the things you love</h1>
+                    <a class="button large-button" mat-raised-button color="primary" routerLink="/register" aria-label="Sign up now button">
+                        Start for free
+                    </a>
+                </div>
+            </mat-grid-tile>
+            <mat-grid-tile colspan="3" rowspan="5">
+                <img src="assets/undraw_traveling_01tc.svg" alt="Relaxation SVG" />            
+            </mat-grid-tile>
+            <mat-grid-tile colspan="1" rowspan="2">
+                <div class="center-svg">
+                    <mat-icon class="icon-display" aria-hidden="false" aria-label="Trending up icon" fontIcon="trending_up"></mat-icon>
+                    <h2>Track your progress</h2>
+                    <p>With ExpenseTracker, view a history of your expenses to watch your net worth grow</p>
+                </div>
+            </mat-grid-tile>
+            <mat-grid-tile colspan="1" rowspan="2">
+                <div>
+                    <mat-icon class="icon-display" aria-hidden="false" aria-label="Flag icon" fontIcon="flag"></mat-icon>
+                    <h2>Reach your financial goals</h2>
+                    <p>Record your goals and check them off as you reach them</p>
+                </div>
+            </mat-grid-tile>
+            <mat-grid-tile colspan="1" rowspan="2">
+                <div>
+                    <mat-icon class="icon-display" aria-hidden="false" aria-label="Mood icon" fontIcon="mood"></mat-icon>
+                    <h2>Ease of use</h2>
+                    <p>Simple and intuitive UI makes ExpenseTracker an easy habit to maintain</p>
+                </div>
+            </mat-grid-tile>
+        </mat-grid-list>
+    </div>
+</main>
+<footer>
+    <app-footer></app-footer>
+</footer>
