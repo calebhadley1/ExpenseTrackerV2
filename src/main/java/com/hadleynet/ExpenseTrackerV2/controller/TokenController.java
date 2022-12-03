@@ -1,5 +1,6 @@
 package com.hadleynet.ExpenseTrackerV2.controller;
 
+import com.hadleynet.ExpenseTrackerV2.model.Token;
 import com.hadleynet.ExpenseTrackerV2.service.TokenService;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +19,7 @@ public class TokenController {
 
 
     @PostMapping("/token")
-    public String token(Authentication authentication) {
+    public Token token(Authentication authentication) {
         return this.tokenService.token(authentication);
     }
 

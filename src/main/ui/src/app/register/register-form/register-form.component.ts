@@ -65,8 +65,6 @@ export class RegisterFormComponent {
         email: form.emailFormControl || '',
         password: form.passwordFormGroup?.passwordFormControl || ''
       }
-      // this.store.dispatch(registerUser(user))
-      this.store.dispatch(setLoadingSpinner({ status: true }));
       this.store.dispatch(register({user}));
     }
   }

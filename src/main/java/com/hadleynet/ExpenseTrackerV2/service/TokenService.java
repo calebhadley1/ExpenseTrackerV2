@@ -1,5 +1,6 @@
 package com.hadleynet.ExpenseTrackerV2.service;
 
+import com.hadleynet.ExpenseTrackerV2.model.Token;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,7 +18,7 @@ public class TokenService {
     @Autowired
     JwtEncoder encoder;
 
-    public String token(Authentication authentication) {
+    public Token token(Authentication authentication) {
         Instant now = Instant.now();
         long expiry = 36000L;
         String scope = authentication.getAuthorities().stream()
@@ -30,6 +31,6 @@ public class TokenService {
                 .subject(authentication.getName())
                 .claim("scope", scope)
                 .build();
-        return this.encoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
+        return new Token(this.encoder.encode(JwtEncoderParameters.from(claims)).getTokenValue());
     }
 }
