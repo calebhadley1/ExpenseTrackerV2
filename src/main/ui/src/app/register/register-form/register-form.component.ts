@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroupDirective, NgForm, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
+import { Store } from '@ngrx/store';
+import { AuthService } from 'src/app/services/auth.service';
+import { User } from 'src/app/shared/models/user';
+import { getToken, register } from 'src/app/state/actions/auth.actions';
+import { setLoadingSpinner } from 'src/app/state/actions/shared.actions';
+import { AppState } from 'src/app/state/app.state';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -27,8 +33,8 @@ ValidationErrors | null => {
 export class RegisterFormComponent implements OnInit {
 
   registerFormGroup = this.fb.group({
-    firstNameFormControl: [''],
-    lastNameFormControl: [''],
+    firstNameFormControl: ['', [Validators.required,]],
+    lastNameFormControl: ['', [Validators.required,]],
     emailFormControl: ['', [Validators.required, Validators.email]],
     passwordFormGroup: this.fb.group({
       passwordFormControl: ['', [
@@ -47,9 +53,24 @@ export class RegisterFormComponent implements OnInit {
   passwordMatcher = new MyErrorStateMatcher();
   confirmPasswordMatcher = new MyErrorStateMatcher();
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private authService: AuthService, private store: Store<AppState>) { }
 
   ngOnInit(): void {
   }
 
+  register(): void {
+    if(this.registerFormGroup.valid){
+      console.log(this.registerFormGroup.value)
+      const form = this.registerFormGroup.value;
+      const user: User = {
+        firstName: form.firstNameFormControl || '',
+        lastName: form.lastNameFormControl || '',
+        email: form.emailFormControl || '',
+        password: form.passwordFormGroup?.passwordFormControl || ''
+      }
+      // this.store.dispatch(registerUser(user))
+      this.store.dispatch(setLoadingSpinner({ status: true }));
+      this.store.dispatch(register({user}));
+    }
+  }
 }
