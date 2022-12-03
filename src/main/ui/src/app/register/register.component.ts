@@ -6,7 +6,7 @@ import { NavItem } from '../core/navbar/nav-item';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent {
   navShowBrand: boolean = true;
   leftNavItems: NavItem[] = [];
   
@@ -20,8 +20,5 @@ export class RegisterComponent implements OnInit {
   ];
 
   constructor() { }
-
-  ngOnInit(): void {
-  }
 
 }

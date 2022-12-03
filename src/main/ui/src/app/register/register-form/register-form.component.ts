@@ -30,7 +30,7 @@ ValidationErrors | null => {
   templateUrl: './register-form.component.html',
   styleUrls: ['./register-form.component.scss']
 })
-export class RegisterFormComponent implements OnInit {
+export class RegisterFormComponent {
 
   registerFormGroup = this.fb.group({
     firstNameFormControl: ['', [Validators.required,]],
@@ -54,9 +54,6 @@ export class RegisterFormComponent implements OnInit {
   confirmPasswordMatcher = new MyErrorStateMatcher();
 
   constructor(private fb: FormBuilder, private authService: AuthService, private store: Store<AppState>) { }
-
-  ngOnInit(): void {
-  }
 
   register(): void {
     if(this.registerFormGroup.valid){

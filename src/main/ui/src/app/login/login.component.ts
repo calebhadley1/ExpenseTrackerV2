@@ -6,7 +6,7 @@ import { NavItem } from '../core/navbar/nav-item';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   navShowBrand: boolean = true;
   leftNavItems: NavItem[] = [];
 
@@ -20,8 +20,5 @@ export class LoginComponent implements OnInit {
   ];
   
   constructor() { }
-
-  ngOnInit(): void {
-  }
 
 }

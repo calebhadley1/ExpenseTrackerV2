@@ -8,7 +8,7 @@ import { NavItem } from './nav-item';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent {
   @Input() showBrand: boolean = false;
   @Input() leftNavItems: NavItem[] = [];
   @Input() rightNavItems: NavItem[] = [];
@@ -21,9 +21,6 @@ export class NavbarComponent implements OnInit {
       "piggybank",
       this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/undraw_credit_card_re_blml.svg")
     );
-  }
-
-  ngOnInit(): void {
   }
 
 }

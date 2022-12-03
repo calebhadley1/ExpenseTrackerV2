@@ -8,7 +8,7 @@ import { NavItem } from '../core/navbar/nav-item';
   templateUrl: './landing.component.html',
   styleUrls: ['./landing.component.scss']
 })
-export class LandingComponent implements OnInit {
+export class LandingComponent {
   navShowBrand: boolean = true;
   leftNavItems: NavItem[] = [];
 
@@ -27,8 +27,5 @@ export class LandingComponent implements OnInit {
     },
   ];
   constructor() { }
-
-  ngOnInit(): void {
-  }
 
 }
