@@ -1,11 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroupDirective, NgForm, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
 import { Store } from '@ngrx/store';
 import { AuthService } from 'src/app/services/auth.service';
 import { User } from 'src/app/shared/models/user';
-import { getToken, register } from 'src/app/state/actions/auth.actions';
-import { setLoadingSpinner } from 'src/app/state/actions/shared.actions';
+import { register } from 'src/app/state/actions/auth.actions';
 import { AppState } from 'src/app/state/app.state';
 
 /** Error when invalid control is dirty, touched, or submitted. */

@@ -1,0 +1,17 @@
+#containerIntro h1,
+#containerIntro p {
+    display: inline;
+    vertical-align: bottom;
+}
+
+.parent {
+    display: flex;
+}
+
+.child2 {
+    margin-left: auto;
+}
+
+.center {
+    text-align: center;
+}

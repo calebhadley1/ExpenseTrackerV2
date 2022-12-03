@@ -2,7 +2,23 @@
     <app-navbar [showBrand]="navShowBrand" [leftNavItems]="leftNavItems" [rightNavItems]="rightNavItems" ></app-navbar>
 </header>
 <main>
-    
+    <div>
+        <mat-grid-list cols="2" rowHeight="100px">
+            <mat-grid-tile colspan="1" rowspan="8">
+                <img src="assets/undraw_traveling_01tc.svg" alt="Relaxation SVG" />            
+            </mat-grid-tile>
+            <mat-grid-tile colspan="1" rowspan="8">
+                <mat-card class="center">
+                    <div id="containerIntro" class="parent">
+                        <h1>Sign in</h1>
+                        <a class="child2" routerLink="/register">or register</a>
+                    </div>
+                    <br>
+                    <app-login-form></app-login-form>
+                </mat-card>
+            </mat-grid-tile>
+        </mat-grid-list>
+    </div>
 </main>
 <footer>
     <app-footer></app-footer>
