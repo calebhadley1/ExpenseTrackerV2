@@ -1,60 +1,63 @@
 <form [formGroup]="registerFormGroup" (ngSubmit)="register()">
-        <p>
-            <mat-form-field [style.width.px]=250 appearance="fill">
-                <mat-label>First name</mat-label>
-                <input matInput formControlName="firstNameFormControl" [errorStateMatcher]="matcher">
-                <mat-error *ngIf="registerFormGroup.get('firstNameFormControl')!.hasError('required')">
-                    First name is <strong>required</strong>
-                </mat-error>
-            </mat-form-field>
-        </p>
-        <p>
-            <mat-form-field [style.width.px]=250 appearance="fill">
-                <mat-label>Last name</mat-label>
-                <input matInput formControlName="lastNameFormControl" [errorStateMatcher]="matcher">
-                <mat-error *ngIf="registerFormGroup.get('lastNameFormControl')!.hasError('required')">
-                    Last name is <strong>required</strong>
-                </mat-error>
-            </mat-form-field>
-        </p>
-        <p>
-            <mat-form-field [style.width.px]=250 appearance="fill">
-                <mat-label>Email</mat-label>
-                <input type="email" matInput formControlName="emailFormControl" [errorStateMatcher]="matcher"
-                    placeholder="Ex. pat@example.com">
-                <mat-error *ngIf="registerFormGroup.get('emailFormControl')!.hasError('email') && !registerFormGroup.get('emailFormControl')!.hasError('required')">
-                Please enter a valid email address
-                </mat-error>
-                <mat-error *ngIf="registerFormGroup.get('emailFormControl')!.hasError('required')">
-                Email is <strong>required</strong>
-                </mat-error>
-            </mat-form-field>
-        </p>
-        <div formGroupName="passwordFormGroup">
-        <p>
-            <mat-form-field [style.width.px]=250 appearance="fill">
-                <mat-label>Password</mat-label>
-                <input type="password" matInput formControlName="passwordFormControl" [errorStateMatcher]="passwordMatcher" >
-                <mat-error *ngIf="registerFormGroup['controls'].passwordFormGroup.get('passwordFormControl')!.errors && !registerFormGroup['controls'].passwordFormGroup.get('passwordFormControl')!.hasError('required')">
-                Must be 8-20 characters and contain at <br>least 1 lowercase and capital letter and 1 number
-                </mat-error>
-                <mat-error *ngIf="registerFormGroup['controls'].passwordFormGroup.get('passwordFormControl')!.hasError('required')">
-                Password is <strong>required</strong>
-                </mat-error>
-            </mat-form-field>
-        </p>
-        <p>
-            <mat-form-field [style.width.px]=250 appearance="fill">
-                <mat-label>Confirm Password</mat-label>
-                <input type="password" matInput formControlName="confirmPasswordFormControl" [errorStateMatcher]="confirmPasswordMatcher">
-                <mat-error *ngIf="registerFormGroup['controls'].passwordFormGroup.get('confirmPasswordFormControl')!.hasError('required')">
-                Confirm Password is <strong>required</strong>
-                </mat-error>
-                <mat-error *ngIf="registerFormGroup['controls'].passwordFormGroup.errors && !registerFormGroup['controls'].passwordFormGroup.get('confirmPasswordFormControl')!.hasError('required')">
-                    Passwords must match
-                </mat-error>
-            </mat-form-field>
-        </p>
-        </div>
-        <button mat-raised-button color="primary" type="submit" [disabled]="!registerFormGroup.valid">Sign up</button>
+    <mat-error *ngIf="hasError$">
+        {{errorMsg$ | async}}
+    </mat-error>
+    <p>
+        <mat-form-field [style.width.px]=250 appearance="fill">
+            <mat-label>First name</mat-label>
+            <input matInput formControlName="firstNameFormControl" [errorStateMatcher]="matcher">
+            <mat-error *ngIf="registerFormGroup.get('firstNameFormControl')!.hasError('required')">
+                First name is <strong>required</strong>
+            </mat-error>
+        </mat-form-field>
+    </p>
+    <p>
+        <mat-form-field [style.width.px]=250 appearance="fill">
+            <mat-label>Last name</mat-label>
+            <input matInput formControlName="lastNameFormControl" [errorStateMatcher]="matcher">
+            <mat-error *ngIf="registerFormGroup.get('lastNameFormControl')!.hasError('required')">
+                Last name is <strong>required</strong>
+            </mat-error>
+        </mat-form-field>
+    </p>
+    <p>
+        <mat-form-field [style.width.px]=250 appearance="fill">
+            <mat-label>Email</mat-label>
+            <input type="email" matInput formControlName="emailFormControl" [errorStateMatcher]="matcher"
+                placeholder="Ex. pat@example.com">
+            <mat-error *ngIf="registerFormGroup.get('emailFormControl')!.hasError('email') && !registerFormGroup.get('emailFormControl')!.hasError('required')">
+            Please enter a valid email address
+            </mat-error>
+            <mat-error *ngIf="registerFormGroup.get('emailFormControl')!.hasError('required')">
+            Email is <strong>required</strong>
+            </mat-error>
+        </mat-form-field>
+    </p>
+    <div formGroupName="passwordFormGroup">
+    <p>
+        <mat-form-field [style.width.px]=250 appearance="fill">
+            <mat-label>Password</mat-label>
+            <input type="password" matInput formControlName="passwordFormControl" [errorStateMatcher]="passwordMatcher" >
+            <mat-error *ngIf="registerFormGroup['controls'].passwordFormGroup.get('passwordFormControl')!.errors && !registerFormGroup['controls'].passwordFormGroup.get('passwordFormControl')!.hasError('required')">
+            Must be 8-20 characters and contain at <br>least 1 lowercase and capital letter and 1 number
+            </mat-error>
+            <mat-error *ngIf="registerFormGroup['controls'].passwordFormGroup.get('passwordFormControl')!.hasError('required')">
+            Password is <strong>required</strong>
+            </mat-error>
+        </mat-form-field>
+    </p>
+    <p>
+        <mat-form-field [style.width.px]=250 appearance="fill">
+            <mat-label>Confirm Password</mat-label>
+            <input type="password" matInput formControlName="confirmPasswordFormControl" [errorStateMatcher]="confirmPasswordMatcher">
+            <mat-error *ngIf="registerFormGroup['controls'].passwordFormGroup.get('confirmPasswordFormControl')!.hasError('required')">
+            Confirm Password is <strong>required</strong>
+            </mat-error>
+            <mat-error *ngIf="registerFormGroup['controls'].passwordFormGroup.errors && !registerFormGroup['controls'].passwordFormGroup.get('confirmPasswordFormControl')!.hasError('required')">
+                Passwords must match
+            </mat-error>
+        </mat-form-field>
+    </p>
+    </div>
+    <button mat-raised-button color="primary" type="submit" [disabled]="!registerFormGroup.valid">Sign up</button>
 </form>

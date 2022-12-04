@@ -14,7 +14,7 @@
                         <a class="child2" routerLink="/login">or log in</a>
                     </div>
                     <br>
-                    <app-register-form></app-register-form>
+                    <app-register-form (registerEvent)="register($event)"></app-register-form>
                 </mat-card>
             </mat-grid-tile>
         </mat-grid-list>
