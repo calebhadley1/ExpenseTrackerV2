@@ -10,6 +10,7 @@ import { MaterialDesignModule } from './material-design.module';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { AuthEffects } from './state/effects/auth.effects';
+import { authReducer } from './state/reducers/auth.reducers';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,7 @@ import { AuthEffects } from './state/effects/auth.effects';
     HttpClientModule,
     MaterialDesignModule,
     ReactiveFormsModule,
-    StoreModule.forRoot({}, {}),
+    StoreModule.forRoot({ auth: authReducer }),
     EffectsModule.forRoot([AuthEffects])
   ],
   providers: [],

@@ -18,6 +18,7 @@ export const registerSuccess = createAction(
 
 export const registerFail = createAction(
   REGISTER_FAIL,
+  props<{error: any}>()
 );
 
 //Get Token

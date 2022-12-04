@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Action, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 
 
 import { AuthService } from '../../services/auth.service';
-import { mergeMap, map, catchError, EMPTY, exhaustMap, of, Observable, tap } from 'rxjs';
+import { map, catchError, exhaustMap, of, tap } from 'rxjs';
 import { AppState } from '../app.state';
 import { getToken, getTokenFail, getTokenSuccess, register, registerFail, registerSuccess } from '../actions/auth.actions';
-import { setErrorMessage, setLoadingSpinner } from '../actions/shared.actions';
 
 
 @Injectable()
@@ -36,9 +35,9 @@ export class AuthEffects {
             this.store.dispatch(getToken({email, password}))
             return registerSuccess();
           }),
-          catchError((errResp) => {
-            console.log(errResp);
-            return of(registerFail());
+          catchError((error) => {
+            console.log(error);
+            return of(registerFail({ error }));
           })
         );
       })

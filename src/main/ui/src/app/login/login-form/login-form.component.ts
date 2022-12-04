@@ -1,12 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroupDirective, NgForm, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { FormBuilder, FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
-import { Store } from '@ngrx/store';
-import { AuthService } from 'src/app/services/auth.service';
-import { User } from 'src/app/shared/models/user';
-import { getToken, register } from 'src/app/state/actions/auth.actions';
-import { setLoadingSpinner } from 'src/app/state/actions/shared.actions';
-import { AppState } from 'src/app/state/app.state';
+import { Credentials } from 'src/app/shared/models/user';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -22,6 +17,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   styleUrls: ['./login-form.component.scss']
 })
 export class LoginFormComponent {
+  @Output() loginEvent = new EventEmitter<Credentials>();
 
   loginFormGroup = this.fb.group({
     emailFormControl: ['', 
@@ -36,17 +32,17 @@ export class LoginFormComponent {
   matcher = new MyErrorStateMatcher();
   passwordMatcher = new MyErrorStateMatcher();
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private store: Store<AppState>) { }
+  constructor(private fb: FormBuilder) { }
 
   login(): void {
     if(this.loginFormGroup.valid){
       console.log(this.loginFormGroup.value)
       const form = this.loginFormGroup.value;
-      const credentials = {
+      const credentials: Credentials = {
         email: form.emailFormControl || '',
         password: form.passwordFormGroup?.passwordFormControl || ''
       }
-      this.store.dispatch(getToken(credentials));
+      this.loginEvent.emit(credentials)
     }
   }
 }
