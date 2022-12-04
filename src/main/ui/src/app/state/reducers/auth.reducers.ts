@@ -1,6 +1,6 @@
 import { createReducer, on } from "@ngrx/store";
 import { Token } from "src/app/shared/models/token";
-import { getToken, getTokenFail, getTokenSuccess, register, registerFail, registerSuccess } from "../actions/auth.actions";
+import { getToken, getTokenFail, getTokenSuccess, register, registerFail, registerSuccess, resetErrorState, RESET_ERROR_STATE } from "../actions/auth.actions";
 
 export interface State {
   /*
@@ -23,6 +23,8 @@ export const initialState: State = {
 export const authReducer = createReducer(
   initialState,
 
+  // Register
+
   on(register, (state) => ({
     isAuthenticated: false,
     token: { token: '' },
@@ -41,6 +43,8 @@ export const authReducer = createReducer(
     errorMessage: 'Error registering. Please try again later',
     hasError: true
   })),
+
+  // Get token
 
   on(getToken, (state) => ({
     isAuthenticated: false,
@@ -62,5 +66,13 @@ export const authReducer = createReducer(
     errorMessage: 'Error logging in. Please try again later.',
     hasError: true
   })),
+
+  // Utility
+
+  on(resetErrorState, (state) => ({
+    ...state,
+    errorMessage: '',
+    hasError: false
+  }))
 
 );

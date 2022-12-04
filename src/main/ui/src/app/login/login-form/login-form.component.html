@@ -1,4 +1,7 @@
 <form [formGroup]="loginFormGroup" (ngSubmit)="login()">
+    <mat-error *ngIf="hasError$">
+        {{errorMsg$ | async}}
+    </mat-error>
     <p>
         <mat-form-field [style.width.px]=250 appearance="fill">
             <mat-label>Email</mat-label>

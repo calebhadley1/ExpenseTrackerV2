@@ -41,3 +41,11 @@ export const getTokenFail = createAction(
   GET_TOKEN_FAIL,
   props<{error: any}>()
 );
+
+//Utility
+
+export const RESET_ERROR_STATE = '[Auth Page] Reset Error State';
+
+export const resetErrorState = createAction(
+  RESET_ERROR_STATE,
+);
