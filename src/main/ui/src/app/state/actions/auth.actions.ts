@@ -1,4 +1,5 @@
 import { createAction, props } from '@ngrx/store';
+import { Token } from 'src/app/shared/models/token';
 import { User } from '../../shared/models/user';
 
 //Register
@@ -34,7 +35,7 @@ export const getToken = createAction(
 
 export const getTokenSuccess = createAction(
   GET_TOKEN_SUCCESS,
-  props<{ token: string }>()
+  props<{ token: Token }>()
 );
 
 export const getTokenFail = createAction(

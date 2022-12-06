@@ -4,12 +4,14 @@ import { MaterialDesignModule } from '../material-design.module';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FooterComponent } from './footer/footer.component';
+import { SideNavComponent } from './side-nav/side-nav.component';
 
 // Module containing core functionality of the application 
 @NgModule({
   declarations: [
     FooterComponent,
-    NavbarComponent
+    NavbarComponent,
+    SideNavComponent
   ],
   exports: [
     FooterComponent,

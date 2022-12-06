@@ -53,9 +53,9 @@ export const authReducer = createReducer(
     hasError: false
   })),
 
-  on(getTokenSuccess, (state) => ({
+  on(getTokenSuccess, (state, { token }) => ({
     isAuthenticated: true,
-    token: { token: state.token.token },
+    token: token,
     errorMessage: '',
     hasError: false
   })),

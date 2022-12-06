@@ -13,6 +13,8 @@ import { EffectsModule } from '@ngrx/effects';
 import { AuthEffects } from './state/effects/auth.effects';
 import { authReducer } from './state/reducers/auth.reducers';
 import { environment } from '../environments/environment';
+import { expenseReducer } from './state/reducers/expense.reducers';
+import { ExpenseEffects } from './state/effects/expense.effects';
 
 @NgModule({
   declarations: [
@@ -26,12 +28,15 @@ import { environment } from '../environments/environment';
     HttpClientModule,
     MaterialDesignModule,
     ReactiveFormsModule,
-    StoreModule.forRoot({ auth: authReducer }),
+    StoreModule.forRoot({ 
+      auth: authReducer,
+      expense: expenseReducer 
+    }),
     StoreDevtoolsModule.instrument({
       maxAge: 25, // Retains last 25 states
       logOnly: !isDevMode(), // Restrict extension to log-only mode
     }),
-    EffectsModule.forRoot([AuthEffects]),
+    EffectsModule.forRoot([AuthEffects, ExpenseEffects]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })
   ],
   providers: [],
