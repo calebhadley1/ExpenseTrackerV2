@@ -5,11 +5,13 @@ import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home.component';
 import { MaterialDesignModule } from '../material-design.module';
 import { CoreModule } from '../core/core.module';
+import { HomeTransactionTableComponent } from './home-transaction-table/home-transaction-table.component';
 
 
 @NgModule({
   declarations: [
-    HomeComponent
+    HomeComponent,
+    HomeTransactionTableComponent
   ],
   imports: [
     CommonModule,

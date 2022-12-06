@@ -10,6 +10,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatListModule} from '@angular/material/list';
 import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatTableModule} from '@angular/material/table';
 
 @NgModule({
   exports: [
@@ -23,7 +24,8 @@ import {MatSidenavModule} from '@angular/material/sidenav';
     MatListModule,
     MatToolbarModule,
     MatNativeDateModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatTableModule
   ]
 })
 export class MaterialDesignModule { }

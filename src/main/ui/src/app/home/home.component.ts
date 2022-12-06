@@ -13,16 +13,15 @@ import { selectExpenses } from '../state/selectors/expense.selectors';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  expenses$: Observable<Expense[]> = this.store.select(selectExpenses);
-
   navShowBrand: boolean = true;
   leftNavItems: NavItem[] = [];
 
   rightNavItems: NavItem[] = [
     {
-      name: 'Some item',
+      name: 'Sign out',
+      routerLink:'/login',
       href: '',
-      ariaLabel: 'Some item'
+      ariaLabel: 'Sign out'
     }
   ];
 

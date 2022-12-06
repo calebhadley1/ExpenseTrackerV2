@@ -3,7 +3,7 @@ import { Expense } from "src/app/shared/models/expense";
 import { ExpensesApiActions } from "../actions/expense.actions";
 
 export interface State {
-    expenses: Expense[];
+    expenses: readonly Expense[];
     hasError: boolean;
     errorMessage: string;
 }
@@ -22,8 +22,8 @@ export const expenseReducer = createReducer(
         errorMessage: '',
         hasError: false
     })),
-    on(ExpensesApiActions.get_all_expenses_success, (state) => ({
-        expenses: state.expenses,
+    on(ExpensesApiActions.get_all_expenses_success, (state, { expenses }) => ({
+        expenses: expenses,
         errorMessage: '',
         hasError: false
     })),
