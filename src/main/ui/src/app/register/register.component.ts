@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { NavItem } from '../core/navbar/nav-item';
+import { NavItem } from '../shared/models/nav-item';
 import { User } from '../shared/models/user';
 import { register } from '../state/actions/auth.actions';
 import { AppState } from '../state/app.state';

@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { NavItem } from '../core/navbar/nav-item';
-import { Expense } from '../shared/models/expense';
+import { NavItem } from '../shared/models/nav-item';
 import { ExpensesApiActions } from '../state/actions/expense.actions';
 import { AppState } from '../state/app.state';
-import { selectExpenses } from '../state/selectors/expense.selectors';
 
 @Component({
   selector: 'app-home',
@@ -13,9 +10,8 @@ import { selectExpenses } from '../state/selectors/expense.selectors';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  navShowBrand: boolean = true;
+  navShowBrand: boolean = false;
   leftNavItems: NavItem[] = [];
-
   rightNavItems: NavItem[] = [
     {
       name: 'Sign out',
@@ -24,6 +20,29 @@ export class HomeComponent implements OnInit {
       ariaLabel: 'Sign out'
     }
   ];
+  sideNavItems: NavItem[] = [
+    {
+      name: 'Home',
+      routerLink:'/home',
+      href: '',
+      activated: true,
+      ariaLabel: 'Home'
+    },
+    {
+      name: 'Transactions',
+      routerLink:'/transactions',
+      href: '',
+      activated: false,
+      ariaLabel: 'Transactions'
+    },
+    {
+      name: 'Trends',
+      routerLink:'/trends',
+      href: '',
+      activated: false,
+      ariaLabel: 'Trends'
+    },
+  ]
 
   constructor(private store: Store<AppState>) { }
 

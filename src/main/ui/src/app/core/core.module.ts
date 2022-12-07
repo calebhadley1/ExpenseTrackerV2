@@ -15,7 +15,8 @@ import { SideNavComponent } from './side-nav/side-nav.component';
   ],
   exports: [
     FooterComponent,
-    NavbarComponent
+    NavbarComponent,
+    SideNavComponent
   ],
   imports: [
     CommonModule,

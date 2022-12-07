@@ -1,1 +1,5 @@
-<p>side-nav works!</p>
+<mat-nav-list>
+    <a mat-list-item *ngFor="let item of sideNavItems" [routerLink]="item.routerLink" routerLinkActive="activatedItem === {{item.name}} ? active-link : ''" activated="item.activated" aria-label="item.ariaLabel">
+        {{item.name}}
+    </a>
+</mat-nav-list>
