@@ -30,7 +30,7 @@ export const ExpensesApiActions = createActionGroup({
     source: 'Expenses API',
     events: {
         GET_ALL_EXPENSES: emptyProps(),
-        GET_ALL_EXPENSES_SUCCESS: props<{ expenses: ReadonlyArray<Expense> }>(),
+        GET_ALL_EXPENSES_SUCCESS: props<{ expenses: Expense[] }>(),
         GET_ALL_EXPENSES_FAIL: props<{ error: any }>(),
         
         GET_EXPENSE_BY_ID: props<{ id: number }>(),

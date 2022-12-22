@@ -2,7 +2,7 @@ import { createFeatureSelector, createSelector } from "@ngrx/store";
 import * as expense from '../reducers/expense.reducers';
 
 
-export const selectExpense = createFeatureSelector<Readonly<expense.State>>('expense');
+export const selectExpense = createFeatureSelector<expense.State>('expense');
 
 export const selectExpenses = createSelector(
     selectExpense,

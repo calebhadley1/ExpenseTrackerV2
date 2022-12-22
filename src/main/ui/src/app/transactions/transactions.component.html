@@ -1,0 +1,20 @@
+<main>
+    <div>
+        <mat-drawer-container class="example-container">
+            <mat-drawer class="side-nav primaryColorBG" mode="side" opened>
+                <aside>
+                    <app-side-nav [sideNavItems]="sideNavItems"></app-side-nav>
+                </aside>
+            </mat-drawer>
+            <mat-drawer-content>
+                <app-navbar [showBrand]="navShowBrand" [leftNavItems]="leftNavItems" [rightNavItems]="rightNavItems" ></app-navbar>
+                <mat-card class="center basic-container">
+                    <app-transactions-table></app-transactions-table>
+                </mat-card>
+            </mat-drawer-content>
+        </mat-drawer-container>
+    </div>
+</main>
+<footer>
+    <app-footer></app-footer>
+</footer>

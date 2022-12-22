@@ -1,4 +1,15 @@
-<h2>Recent Transactions</h2>
+<h2>Transactions</h2>
+
+<div class="demo-button-container">
+
+  <mat-form-field>
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. expense" #input>
+  </mat-form-field>
+
+</div>
+<button><mat-icon (click)="addNewRow()" class="add-button">add_box</mat-icon></button>
+
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z0">
 
     <!-- ID Column -->
@@ -27,6 +38,10 @@
   
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    <!-- Row shown when there is no matching data. -->
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+    </tr>
 </table>
 <br>
-<a class="center" routerLink="/transactions">Go to all transactions</a>

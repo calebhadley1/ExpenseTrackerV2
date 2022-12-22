@@ -3,7 +3,7 @@ import { Expense } from "src/app/shared/models/expense";
 import { ExpensesApiActions } from "../actions/expense.actions";
 
 export interface State {
-    expenses: readonly Expense[];
+    expenses: Expense[];
     hasError: boolean;
     errorMessage: string;
 }
