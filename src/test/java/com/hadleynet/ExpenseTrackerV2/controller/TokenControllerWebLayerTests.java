@@ -1,8 +1,10 @@
 package com.hadleynet.ExpenseTrackerV2.controller;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hadleynet.ExpenseTrackerV2.model.AppUser;
 import com.hadleynet.ExpenseTrackerV2.model.RegistrationRequest;
+import com.hadleynet.ExpenseTrackerV2.model.Token;
 import com.hadleynet.ExpenseTrackerV2.repository.AppUserRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,6 +39,10 @@ public class TokenControllerWebLayerTests {
 
     @BeforeEach
     public void setup() throws Exception {
+        //Delete user
+        Optional<AppUser> res = appUserRepository.findByEmail("test@gmail.com");
+        res.ifPresent(appUser -> appUserRepository.delete(appUser));
+
         //Setup user account
         RegistrationRequest registrationRequest = new RegistrationRequest(
                 "fname", "lname", "test@gmail.com", "password"
@@ -53,7 +59,7 @@ public class TokenControllerWebLayerTests {
     public void teardown() throws Exception {
         //Delete user
         Optional<AppUser> res = appUserRepository.findByEmail("test@gmail.com");
-        appUserRepository.delete(res.get());
+        res.ifPresent(appUser -> appUserRepository.delete(appUser));
     }
 
     @Test
@@ -63,10 +69,11 @@ public class TokenControllerWebLayerTests {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        String token = result.getResponse().getContentAsString();
+        String json = result.getResponse().getContentAsString();
+        Token token = new ObjectMapper().readValue(json, new TypeReference<Token>(){});
 
         this.mvc.perform(get("/")
-                        .header("Authorization", "Bearer " + token))
+                        .header("Authorization", "Bearer " + token.getToken()))
                 .andExpect(content().string("Hello, test@gmail.com!"));
     }
 

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hadleynet.ExpenseTrackerV2.model.RegistrationRequest;
 import com.hadleynet.ExpenseTrackerV2.repository.AppUserRepository;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -27,6 +28,11 @@ public class RegistrationControllerWebLayerTests {
     @Autowired
     private AppUserRepository appUserRepository;
 
+    @BeforeEach
+    public void setup() {
+        //Delete User
+        appUserRepository.deleteAll();
+    }
     @AfterEach
     public void teardown() {
         //Delete User

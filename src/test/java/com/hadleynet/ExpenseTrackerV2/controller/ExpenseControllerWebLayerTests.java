@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hadleynet.ExpenseTrackerV2.model.Expense;
 import com.hadleynet.ExpenseTrackerV2.model.ExpenseDto;
 import com.hadleynet.ExpenseTrackerV2.model.RegistrationRequest;
+import com.hadleynet.ExpenseTrackerV2.model.Token;
 import com.hadleynet.ExpenseTrackerV2.repository.AppUserRepository;
 import com.hadleynet.ExpenseTrackerV2.repository.ExpenseRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -43,11 +44,15 @@ public class ExpenseControllerWebLayerTests {
     @Autowired
     private ExpenseRepository expenseRepository;
 
-    private String token;
+    private Token token;
     private Expense expense;
 
     @BeforeEach
     public void setup() throws Exception {
+        //Delete user
+        expenseRepository.deleteAll();
+        appUserRepository.deleteAll();
+
         //Setup user account
         RegistrationRequest registrationRequest = new RegistrationRequest(
                 "fname", "lname", "test@gmail.com", "password"
@@ -65,7 +70,8 @@ public class ExpenseControllerWebLayerTests {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        token = tokenResult.getResponse().getContentAsString();
+        String json = tokenResult.getResponse().getContentAsString();
+        token = new ObjectMapper().readValue(json, new TypeReference<Token>(){});
         expense = new Expense("Paycheck", "Biweekly pay", new BigDecimal("100.00"), null);
     }
 
@@ -79,7 +85,7 @@ public class ExpenseControllerWebLayerTests {
     @Test
     void testAddExpense() throws Exception {
         this.mvc.perform(post("/api/expense")
-                        .header("Authorization", "Bearer " + token)
+                        .header("Authorization", "Bearer " + token.getToken())
                         .content(objectMapper.writeValueAsString(expense))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
@@ -90,7 +96,7 @@ public class ExpenseControllerWebLayerTests {
     void testGetAllExpenses() throws Exception {
         //Get all Expenses
         MvcResult result = this.mvc.perform(get("/api/expense")
-                        .header("Authorization", "Bearer " + token))
+                        .header("Authorization", "Bearer " + token.getToken()))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -103,14 +109,14 @@ public class ExpenseControllerWebLayerTests {
     void testGetExpenseById() throws Exception {
         //Insert Expense
         this.mvc.perform(post("/api/expense")
-                        .header("Authorization", "Bearer " + token)
+                        .header("Authorization", "Bearer " + token.getToken())
                         .content(objectMapper.writeValueAsString(expense))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andReturn();
         //Get All Expenses
         MvcResult getAllResult = this.mvc.perform(get("/api/expense")
-                        .header("Authorization", "Bearer " + token))
+                        .header("Authorization", "Bearer " + token.getToken()))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -118,7 +124,7 @@ public class ExpenseControllerWebLayerTests {
         List<ExpenseDto> getAllResponse = new ObjectMapper().readValue(getAllJson, new TypeReference<List<ExpenseDto>>(){});
         //Get Expense by Id
         MvcResult result = this.mvc.perform(get("/api/expense/" + getAllResponse.get(0).getId())
-                        .header("Authorization", "Bearer " + token))
+                        .header("Authorization", "Bearer " + token.getToken()))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -131,14 +137,14 @@ public class ExpenseControllerWebLayerTests {
     void testDeleteExpense() throws Exception {
         //Insert Expense
         this.mvc.perform(post("/api/expense")
-                        .header("Authorization", "Bearer " + token)
+                        .header("Authorization", "Bearer " + token.getToken())
                         .content(objectMapper.writeValueAsString(expense))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andReturn();
         //Get all Expenses for user
         MvcResult result = this.mvc.perform(get("/api/expense")
-                        .header("Authorization", "Bearer " + token))
+                        .header("Authorization", "Bearer " + token.getToken()))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -146,7 +152,7 @@ public class ExpenseControllerWebLayerTests {
         List<ExpenseDto> getAllResponse = new ObjectMapper().readValue(json, new TypeReference<List<ExpenseDto>>(){});
         //Delete the first Expense
         this.mvc.perform(delete("/api/expense/" + getAllResponse.get(0).getId())
-                        .header("Authorization", "Bearer " + token))
+                        .header("Authorization", "Bearer " + token.getToken()))
                 .andExpect(status().isNoContent())
                 .andReturn();
     }
@@ -155,14 +161,14 @@ public class ExpenseControllerWebLayerTests {
     void testUpdateExpense() throws Exception {
         //Insert Expense
         this.mvc.perform(post("/api/expense")
-                        .header("Authorization", "Bearer " + token)
+                        .header("Authorization", "Bearer " + token.getToken())
                         .content(objectMapper.writeValueAsString(expense))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andReturn();
         //Get all Expenses for user
         MvcResult getResult = this.mvc.perform(get("/api/expense")
-                        .header("Authorization", "Bearer " + token))
+                        .header("Authorization", "Bearer " + token.getToken()))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -173,7 +179,7 @@ public class ExpenseControllerWebLayerTests {
         firstExpense.setName("A new name");
         firstExpense.setDescription("A new desc");
         MvcResult updateResult = this.mvc.perform(put("/api/expense")
-                        .header("Authorization", "Bearer " + token)
+                        .header("Authorization", "Bearer " + token.getToken())
                         .content(objectMapper.writeValueAsString(firstExpense))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
